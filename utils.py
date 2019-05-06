@@ -36,7 +36,7 @@ def get_data(dataset, data_path, cutout_length, validation):
     # assuming shape is NHW or NHWC
     #shape = trn_data.train_data.shape
     #print(shape)
-    shape = [500, 64, 64,3]
+    shape = [134, 64, 64,3]
     input_channels = 3 if len(shape) == 4 else 1
     assert shape[1] == shape[2], "not expected shape = {}".format(shape)
     input_size = shape[1]
