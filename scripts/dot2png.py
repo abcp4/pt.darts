@@ -117,6 +117,6 @@ def to_gif(dst_dir, gif_prefix):
 
 
 if __name__ == "__main__":
-    add_epoch_caption(args.src_dir, args.dst_dir)
+    #add_epoch_caption(args.src_dir, args.dst_dir)
     to_square(args.dst_dir)
     to_gif(args.dst_dir, args.gif_prefix)
