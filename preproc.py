@@ -49,6 +49,13 @@ def data_transforms(dataset, cutout_length):
             transforms.RandomAffine(degrees=15, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=0.1),
             transforms.RandomVerticalFlip()
         ]
+    elif dataset == 'mama':
+        MEAN = [0.28604063146254594]
+        STD = [0.35302426207299326]
+        transf = [
+            transforms.RandomAffine(degrees=15, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=0.1),
+            transforms.RandomVerticalFlip()
+        ]
     else:
         raise ValueError('not expected dataset = {}'.format(dataset))
 
