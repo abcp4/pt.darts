@@ -110,7 +110,6 @@ class AugmentConfig(BaseConfig):
         super().__init__(**vars(args))
 
         #self.data_path = './data/'
-        self.data_path = args.data_path
         self.path = os.path.join('augments', self.name)
         self.genotype = gt.from_str(self.genotype)
         self.gpus = parse_gpus(self.gpus)
