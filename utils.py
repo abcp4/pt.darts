@@ -28,7 +28,10 @@ def get_data(dataset, data_path, cutout_length, validation):
         raise ValueError(dataset)
 
     trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length)
-    trn_data = dset_cls(root=data_path, train=True, download=True, transform=trn_transform)
+    if dataset == 'mama':
+        trn_data = dset_cls(root=data_path, transform=trn_transform)
+    else:
+        trn_data = dset_cls(root=data_path, train=True, download=True, transform=trn_transform)
 
     # assuming shape is NHW or NHWC
     shape = trn_data.train_data.shape
