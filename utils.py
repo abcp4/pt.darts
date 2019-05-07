@@ -46,7 +46,7 @@ def get_data(dataset, data_path, cutout_length, validation):
     ret = [input_size, input_channels, n_classes, trn_data]
     if validation: # append validation data
         if dataset == 'mama':
-            dset_cls = dset.ImageFolder('/content/dataset_color/train',transform=val_transform)
+            dset_cls = dset.ImageFolder('/content/dataset_color/test',transform=val_transform)
             ret.append(dset_cls)
         else:
             ret.append(dset_cls(root=data_path, train=False, download=True, transform=val_transform))
