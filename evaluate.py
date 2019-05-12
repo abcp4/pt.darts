@@ -188,7 +188,7 @@ def validate(valid_loader, model, epoch, cur_step):
 
             _, pred = output.topk(maxk, 1, True, True)
             pred = pred.t()
-            preds = np.concatenate(preds,pred.numpy())
+            preds = np.concatenate(preds,pred.cpu().numpy())
             targets = np.concatenate(targets,target)
             #print('pred: ',pred)
             #print('target:',target)
