@@ -81,7 +81,7 @@ def main():
         model.print_alphas(logger)
 
         # training
-        #train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
+        train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
 
         # validation
         cur_step = (epoch+1) * len(train_loader)
