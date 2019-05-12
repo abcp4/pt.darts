@@ -187,8 +187,9 @@ def validate(valid_loader, model, epoch, cur_step):
             maxk = 3 # Ignorando completamente o top5
 
             _, pred = output.topk(maxk, 1, True, True)
-            print(pred)
+            
             pred = pred.t()
+            print(pred)
             print(pred.cpu().numpy())
             
             preds = np.concatenate(preds,pred.cpu().numpy())
