@@ -207,8 +207,8 @@ def validate(valid_loader, model, epoch, cur_step):
                         epoch+1, config.epochs, step, len(valid_loader)-1, losses=losses,
                         top1=top1, top5=top5))
             """
-    print(preds)
-    print(targets)
+    print(preds.shape)
+    print(targets.shape)
     a = 2/0
 
     logger.info("Valid: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
