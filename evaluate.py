@@ -180,7 +180,8 @@ def validate(valid_loader, model, epoch, cur_step):
             topk = (1,3)
             maxk = max(topk)
             batch_size = target.size(0)
-            #print('output:',output)
+            print('output:',output)
+            print('target:',target)
             
             #print('maxk:',maxk)
             ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
@@ -189,23 +190,12 @@ def validate(valid_loader, model, epoch, cur_step):
             _, pred = output.topk(maxk, 1, True, True)
             
             pred = pred.t()
-            print(target)
-            print(pred.cpu().numpy())
             
-            #preds = np.concatenate(preds,pred.cpu().numpy())
+            #preds = np.concatenate(preds,output)
             #targets = np.concatenate(targets,target)
             #print('pred: ',pred)
             #print('target:',target)
     
-            # one-hot case
-            if target.ndimension() > 1:
-                target = target.max(1)[1]
-
-            correct = pred.eq(target.view(1, -1).expand_as(pred))            
-            print('correct: ',correct)
-            for k in topk:
-                correct_k = correct[:k].view(-1).float().sum(0)
-                print('correct_k:',correct_k)
             a=2/0
 
     
