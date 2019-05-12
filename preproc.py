@@ -52,8 +52,8 @@ def data_transforms(dataset, cutout_length):
     elif dataset == 'custom':
         transf = [
             transforms.Resize((32,32), interpolation=2),
-            transforms.RandomVerticalFlip()
-            #transforms.ToTensor()
+            #transforms.RandomVerticalFlip()
+            transforms.ToTensor()
         ]
     else:
         raise ValueError('not expected dataset = {}'.format(dataset))
