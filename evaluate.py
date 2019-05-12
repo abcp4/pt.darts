@@ -180,9 +180,10 @@ def validate(valid_loader, model, epoch, cur_step):
             topk = (1,3)
             maxk = max(topk)
             batch_size = target.size(0)
-            print('output:',output)
+            #print('output:',output)
             print('target:',target)
-            
+            _, predicted = torch.max(outputs.data, 1)
+            print('predicted:',predicted)
             #print('maxk:',maxk)
             ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
             maxk = 3 # Ignorando completamente o top5
