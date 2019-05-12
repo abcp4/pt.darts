@@ -80,6 +80,7 @@ net_crit, device_ids=config.gpus)
 
     # training loop
     best_top1 = 0.
+    print('eval loop')
     for epoch in range(config.epochs):
         lr_scheduler.step()
         lr = lr_scheduler.get_lr()[0]
