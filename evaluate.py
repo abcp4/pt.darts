@@ -192,8 +192,7 @@ def validate(valid_loader, model, epoch, cur_step):
             _, pred = output.topk(maxk, 1, True, True)
             
             pred = pred.t()
-            a = predicted.cpu().numpy().ravel()
-            preds = np.concatenate((preds,a))
+            preds = np.concatenate((preds,predicted.cpu().numpy().ravel()))
             targets = np.concatenate((targets,target.cpu().numpy().ravel()))
             #print('pred: ',pred)
             #print('target:',target)
@@ -213,7 +212,6 @@ def validate(valid_loader, model, epoch, cur_step):
     from sklearn.metrics import accuracy_score
     print(accuracy_score(targets, preds))
     print(classification_report(targets, preds))
-    a = 2/0
 
     logger.info("Valid: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
