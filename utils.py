@@ -21,23 +21,23 @@ def get_data(dataset, data_path, cutout_length, validation):
     elif dataset == 'fashionmnist':
         dset_cls = dset.FashionMNIST
         n_classes = 10
-    elif dataset == 'mama':
+    elif dataset == 'custom':
         dset_cls = dset.ImageFolder
         n_classes = 2
     else:
         raise ValueError(dataset)
 
     trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length)
-    if dataset == 'mama':
+    if dataset == 'custom':
         trn_data = dset_cls(root=data_path, transform=trn_transform)
     else:
         trn_data = dset_cls(root=data_path, train=True, download=True, transform=trn_transform)
 
     # assuming shape is NHW or NHWC
-    if dataset == 'mama':
-        shape = [500, 32, 32,3]
-    else:
-        shape = trn_data.train_data.shape
+    #if dataset == 'mama':
+    #    shape = [500, 32, 32,3]
+    #else:
+    shape = trn_data.train_data.shape
     print(shape)
     input_channels = 3 if len(shape) == 4 else 1
     assert shape[1] == shape[2], "not expected shape = {}".format(shape)
@@ -45,8 +45,8 @@ def get_data(dataset, data_path, cutout_length, validation):
 
     ret = [input_size, input_channels, n_classes, trn_data]
     if validation: # append validation data
-        if dataset == 'mama':
-            dset_cls = dset.ImageFolder('/content/dataset_color/test',transform=val_transform)
+        if dataset == 'custom':
+            dset_cls = dset.ImageFolder('/content/geoData/test',transform=val_transform)
             ret.append(dset_cls)
         else:
             ret.append(dset_cls(root=data_path, train=False, download=True, transform=val_transform))
