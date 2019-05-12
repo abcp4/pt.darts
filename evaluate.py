@@ -48,7 +48,7 @@ net_crit, device_ids=config.gpus)
     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
     epoch = checkpoint['epoch']
     loss = checkpoint['loss']
-    
+    print('loaded!')
     model = model.to(device)
 
     # weights optimizer
