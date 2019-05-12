@@ -30,14 +30,18 @@ def get_data(dataset, data_path, cutout_length, validation):
     trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length)
     if dataset == 'custom':
         trn_data = dset_cls(root=data_path, transform=trn_transform)
+        dataset_loader = torch.utils.data.DataLoader(trn_data,
+                                             batch_size=16, shuffle=True,
+                                             num_workers=1)
+        
     else:
         trn_data = dset_cls(root=data_path, train=True, download=True, transform=trn_transform)
 
     # assuming shape is NHW or NHWC
-    #if dataset == 'mama':
-    #    shape = [500, 32, 32,3]
-    #else:
-    shape = trn_data.train_data.shape
+    if dataset == 'custom':
+        shape = [1, 32, 32,3]
+    else:
+        shape = trn_data.train_data.shape
     print(shape)
     input_channels = 3 if len(shape) == 4 else 1
     assert shape[1] == shape[2], "not expected shape = {}".format(shape)
