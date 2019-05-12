@@ -48,3 +48,50 @@ net_crit, device_ids=config.gpus)
     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
     epoch = checkpoint['epoch']
     loss = checkpoint['loss']
+    
+    model = model.to(device)
+
+    # weights optimizer
+    w_optim = torch.optim.SGD(model.weights(), config.w_lr, momentum=config.w_momentum,
+                              weight_decay=config.w_weight_decay)
+    # alphas optimizer
+    alpha_optim = torch.optim.Adam(model.alphas(), config.alpha_lr, betas=(0.5, 0.999),
+                                   weight_decay=config.alpha_weight_decay)
+
+    # split data to train/validation
+    n_train = len(train_data)
+    split = n_train // 2
+    indices = list(range(n_train))
+    train_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices[:split])
+    valid_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices[split:])
+    train_loader = torch.utils.data.DataLoader(train_data,
+                                               batch_size=config.batch_size,
+                                               sampler=train_sampler,
+                                               num_workers=config.workers,
+                                               pin_memory=True)
+    valid_loader = torch.utils.data.DataLoader(train_data,
+                                               batch_size=config.batch_size,
+                                               sampler=valid_sampler,
+                                               num_workers=config.workers,
+                                               pin_memory=True)
+    lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        w_optim, config.epochs, eta_min=config.w_lr_min)
+    architect = Architect(model, config.w_momentum, config.w_weight_decay)
+
+    # training loop
+    best_top1 = 0.
+    for epoch in range(config.epochs):
+        lr_scheduler.step()
+        lr = lr_scheduler.get_lr()[0]
+
+        model.print_alphas(logger)
+
+        # training
+        #train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
+
+        # validation
+        cur_step = (epoch+1) * len(train_loader)
+        top1 = validate(valid_loader, model, epoch, cur_step)
+        print(top1)
+
+       
