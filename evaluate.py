@@ -209,6 +209,10 @@ def validate(valid_loader, model, epoch, cur_step):
             """
     print(preds.shape)
     print(targets.shape)
+    from sklearn.metrics import classification_report
+    from sklearn.metrics import accuracy_score
+    print(accuracy_score(targets, preds))
+    print(classification_report(targets, preds))
     a = 2/0
 
     logger.info("Valid: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
