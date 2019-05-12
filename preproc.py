@@ -58,7 +58,7 @@ def data_transforms(dataset, cutout_length):
     else:
         raise ValueError('not expected dataset = {}'.format(dataset))
     
-    if dataset == 'custom':
+    if dataset != 'custom':
         normalize = [
             transforms.ToTensor(),
             transforms.Normalize(MEAN, STD)
