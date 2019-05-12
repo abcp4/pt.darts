@@ -163,7 +163,9 @@ def train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr
 
 def validate(valid_loader, model, epoch, cur_step):
     model.eval()
-
+    import numpy as np
+    preds = np.asarray([])
+    targets = np.asarray([])
     with torch.no_grad():
         for step, (X, y) in enumerate(valid_loader):
             X, y = X.to(device, non_blocking=True), y.to(device, non_blocking=True)
@@ -179,29 +181,36 @@ def validate(valid_loader, model, epoch, cur_step):
             maxk = max(topk)
             batch_size = target.size(0)
             #print('output:',output)
-            print('target:',target)
+            
             #print('maxk:',maxk)
             ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
             maxk = 3 # Ignorando completamente o top5
 
             _, pred = output.topk(maxk, 1, True, True)
             pred = pred.t()
-            print('pred: ',pred)
+            preds = np.concatenate(preds,pred.numpy())
+            targets = np.concatenate(targets,target)
+            #print('pred: ',pred)
+            #print('target:',target)
+    
             # one-hot case
             if target.ndimension() > 1:
                 target = target.max(1)[1]
 
-            correct = pred.eq(target.view(1, -1).expand_as(pred))
-            print(correct)
-            a = 2/0
+            correct = pred.eq(target.view(1, -1).expand_as(pred))            
 
     
+            """
             if step % config.print_freq == 0 or step == len(valid_loader)-1:
                 logger.info(
                     "Valid: [{:2d}/{}] Step {:03d}/{:03d} Loss {losses.avg:.3f} "
                     "Prec@(1,5) ({top1.avg:.1%}, {top5.avg:.1%})".format(
                         epoch+1, config.epochs, step, len(valid_loader)-1, losses=losses,
                         top1=top1, top5=top5))
+            """
+    print(preds)
+    print(targets)
+    a = 2/0
 
     logger.info("Valid: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
