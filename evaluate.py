@@ -192,8 +192,8 @@ def validate(valid_loader, model, epoch, cur_step):
             print(target)
             print(pred.cpu().numpy())
             
-            preds = np.concatenate(preds,pred.cpu().numpy())
-            targets = np.concatenate(targets,target)
+            #preds = np.concatenate(preds,pred.cpu().numpy())
+            #targets = np.concatenate(targets,target)
             #print('pred: ',pred)
             #print('target:',target)
     
@@ -202,6 +202,8 @@ def validate(valid_loader, model, epoch, cur_step):
                 target = target.max(1)[1]
 
             correct = pred.eq(target.view(1, -1).expand_as(pred))            
+            print('correct: ',correct)
+            a=2/0
 
     
             """
