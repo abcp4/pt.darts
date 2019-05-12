@@ -107,6 +107,7 @@ def accuracy(output, target, topk=(1,)):
     """ Computes the precision@k for the specified values of k """
     maxk = max(topk)
     batch_size = target.size(0)
+    output[0] = 2
     print('output:',output)
     print('target:',target)
     print('maxk:',maxk)
