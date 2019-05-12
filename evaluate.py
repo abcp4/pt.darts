@@ -204,7 +204,10 @@ def validate(valid_loader, model, epoch, cur_step):
             for k in topk:
                 correct_k = correct[:k].view(-1).float().sum(0)
                 res.append(correct_k.mul_(1.0 / batch_size))
-            top1,top5 = res
+            prec1,prec5 = res
+            losses.update(loss.item(), N)
+            top1.update(prec1.item(), N)
+            top5.update(prec5.item(), N)
 
     
             if step % config.print_freq == 0 or step == len(valid_loader)-1:
