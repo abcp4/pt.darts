@@ -173,6 +173,8 @@ def validate(valid_loader, model, epoch, cur_step):
             loss = model.criterion(logits, y)
 
             prec1, prec5 = utils.accuracy(logits, y, topk=(1, 5))
+            target = y
+            output = logits
             topk = (1,3)
             maxk = max(topk)
             batch_size = target.size(0)
