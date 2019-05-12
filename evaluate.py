@@ -182,7 +182,7 @@ def validate(valid_loader, model, epoch, cur_step):
             batch_size = target.size(0)
             #print('output:',output)
             print('target:',target)
-            _, predicted = torch.max(outputs.data, 1)
+            _, predicted = torch.max(output.data, 1)
             print('predicted:',predicted)
             #print('maxk:',maxk)
             ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
