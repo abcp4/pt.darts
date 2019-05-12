@@ -203,6 +203,9 @@ def validate(valid_loader, model, epoch, cur_step):
 
             correct = pred.eq(target.view(1, -1).expand_as(pred))            
             print('correct: ',correct)
+            for k in topk:
+                correct_k = correct[:k].view(-1).float().sum(0)
+                print('correct_k:',correct_k)
             a=2/0
 
     
