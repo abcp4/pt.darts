@@ -49,22 +49,25 @@ def data_transforms(dataset, cutout_length):
             transforms.RandomAffine(degrees=15, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=0.1),
             transforms.RandomVerticalFlip()
         ]
-    elif dataset == 'mama':
-        MEAN = [0.28604063146254594]
-        STD = [0.35302426207299326]
+    elif dataset == 'custom':
         transf = [
             transforms.Resize((32,32), interpolation=2),
-            transforms.RandomAffine(degrees=15, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=0.1),
             transforms.RandomVerticalFlip()
             #transforms.ToTensor()
         ]
     else:
         raise ValueError('not expected dataset = {}'.format(dataset))
-
-    normalize = [
-        transforms.ToTensor(),
-        transforms.Normalize(MEAN, STD)
-    ]
+    
+    if dataset == 'custom':
+        normalize = [
+            transforms.ToTensor(),
+            transforms.Normalize(MEAN, STD)
+        ]
+    else:
+        normalize = [
+            transforms.ToTensor()
+        ]
+        
 
     train_transform = transforms.Compose(transf + normalize)
     valid_transform = transforms.Compose(normalize)
