@@ -111,7 +111,7 @@ def accuracy(output, target, topk=(1,)):
     #print('target:',target)
     #print('maxk:',maxk)
     ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
-    maxk = 2 # Ignorando completamente o top5
+    maxk = 3 # Ignorando completamente o top5
 
     _, pred = output.topk(maxk, 1, True, True)
     pred = pred.t()
