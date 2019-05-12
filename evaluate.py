@@ -180,32 +180,37 @@ def validate(valid_loader, model, epoch, cur_step):
             topk = (1,3)
             maxk = max(topk)
             batch_size = target.size(0)
-            #print('output:',output)
-            #print('target:',target)
             _, predicted = torch.max(output.data, 1)
-            #print('predicted:',predicted)
-            
-            #print('maxk:',maxk)
-            ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
-            maxk = 3 # Ignorando completamente o top5
-
-            _, pred = output.topk(maxk, 1, True, True)
-            
-            pred = pred.t()
+            #minha alteracao
             preds = np.concatenate((preds,predicted.cpu().numpy().ravel()))
             targets = np.concatenate((targets,target.cpu().numpy().ravel()))
-            #print('pred: ',pred)
-            #print('target:',target)
+            
+            ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
+            maxk = 3 # Ignorando completamente o top5
+            
+            _, pred = output.topk(maxk, 1, True, True)
+            pred = pred.t()
+            
+            # one-hot case
+            if target.ndimension() > 1:
+                target = target.max(1)[1]
+
+            correct = pred.eq(target.view(1, -1).expand_as(pred))
+
+            res = []
+            for k in topk:
+                correct_k = correct[:k].view(-1).float().sum(0)
+                res.append(correct_k.mul_(1.0 / batch_size))
+            top1,top5 = res
 
     
-            """
             if step % config.print_freq == 0 or step == len(valid_loader)-1:
                 logger.info(
                     "Valid: [{:2d}/{}] Step {:03d}/{:03d} Loss {losses.avg:.3f} "
                     "Prec@(1,5) ({top1.avg:.1%}, {top5.avg:.1%})".format(
                         epoch+1, config.epochs, step, len(valid_loader)-1, losses=losses,
                         top1=top1, top5=top5))
-            """
+            
     print(preds.shape)
     print(targets.shape)
     from sklearn.metrics import classification_report
