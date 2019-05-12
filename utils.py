@@ -107,9 +107,9 @@ def accuracy(output, target, topk=(1,)):
     """ Computes the precision@k for the specified values of k """
     maxk = max(topk)
     batch_size = target.size(0)
-    print('output:',output)
-    print('target:',target)
-    print('maxk:',maxk)
+    #print('output:',output)
+    #print('target:',target)
+    #print('maxk:',maxk)
     ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
     maxk = 2 # Ignorando completamente o top5
 
