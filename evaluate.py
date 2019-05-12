@@ -81,7 +81,7 @@ def main():
         model.print_alphas(logger)
 
         # training
-        train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
+        #train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
 
         # validation
         cur_step = (epoch+1) * len(train_loader)
@@ -173,7 +173,7 @@ def validate(valid_loader, model, epoch, cur_step):
             loss = model.criterion(logits, y)
 
             prec1, prec5 = utils.accuracy(logits, y, topk=(1, 5))
-            
+            topk = (1,3)
             maxk = max(topk)
             batch_size = target.size(0)
             #print('output:',output)
