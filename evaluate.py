@@ -34,6 +34,7 @@ def main():
     torch.cuda.manual_seed_all(config.seed)
 
     torch.backends.cudnn.benchmark = True
+    
 
     # get data with meta info
     input_size, input_channels, n_classes, train_data = utils.get_data(
@@ -89,6 +90,8 @@ net_crit, device_ids=config.gpus)
 
         # training
         #train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
+        
+main()
 
         # validation
         cur_step = (epoch+1) * len(train_loader)
