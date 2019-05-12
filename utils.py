@@ -23,7 +23,7 @@ def get_data(dataset, data_path, cutout_length, validation):
         n_classes = 10
     elif dataset == 'custom':
         dset_cls = dset.ImageFolder
-        n_classes = 2
+        n_classes = 3 #2 to mama
     else:
         raise ValueError(dataset)
 
