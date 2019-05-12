@@ -90,12 +90,12 @@ net_crit, device_ids=config.gpus)
 
         # training
         #train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
-        
-main()
 
         # validation
         cur_step = (epoch+1) * len(train_loader)
         top1 = validate(valid_loader, model, epoch, cur_step)
         print(top1)
-
+        
+        
+main()
        
