@@ -39,7 +39,7 @@ def get_data(dataset, data_path, cutout_length, validation):
 
     # assuming shape is NHW or NHWC
     if dataset == 'custom':
-        shape = [1, 32, 32,3]
+        shape = [1, 64, 64,3]
     else:
         shape = trn_data.train_data.shape
     print(shape)
