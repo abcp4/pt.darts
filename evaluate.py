@@ -54,7 +54,7 @@ def main():
 
     #balanced split to train/validation
     print(train_data)
-    a=2/0
+    #a=2/0
     # split data to train/validation
     n_train = len(train_data)
     split = n_train // 2
