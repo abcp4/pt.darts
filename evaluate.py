@@ -88,7 +88,7 @@ def main():
     architect = Architect(model, config.w_momentum, config.w_weight_decay)
     
     #load model
-    model, net_crit, logger = utils.load_checkpoint(model, net_crit, logger,'content/pt.darts/searchs/custom/checkpoint.pth.tar')
+    #model, net_crit, logger = utils.load_checkpoint(model, net_crit, logger,'content/pt.darts/searchs/custom/checkpoint.pth.tar')
     
     # training loop
     best_top1 = 0.
