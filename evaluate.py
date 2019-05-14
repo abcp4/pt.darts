@@ -37,8 +37,8 @@ def main():
     torch.backends.cudnn.benchmark = True
 
     # get data with meta info
-    input_size, input_channels, n_classes, train_data, test_dat = utils.get_data(
-        config.dataset, config.data_path, cutout_length=0, validation=True)
+    input_size, input_channels, n_classes, train_data, test_dat, val_dat = utils.get_data(
+        config.dataset, config.data_path, cutout_length=0, validation=True,validation2 = True)
 
     net_crit = nn.CrossEntropyLoss().to(device)
     model = SearchCNNController(input_channels, config.init_channels, n_classes, config.layers,
@@ -61,6 +61,7 @@ def main():
     indices = list(range(n_train))
     #train_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices[:split])
     #valid_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices[split:])
+    
     train_loader = torch.utils.data.DataLoader(train_data,
                                                batch_size=config.batch_size,
                                                #sampler=train_sampler,
