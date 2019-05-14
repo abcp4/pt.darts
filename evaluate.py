@@ -57,24 +57,30 @@ def main():
     #a=2/0
     # split data to train/validation
     n_train = len(train_data)
+    n_val = len(val_dat)
+    n_test = len(test_dat)
     split = n_train // 2
-    indices = list(range(n_train))
-    #train_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices[:split])
-    #valid_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices[split:])
+    indices1 = list(range(n_train))
+    indices2 = list(range(n_val))
+    indices3 = list(range(n_test))
+    train_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices1)
+    valid_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices2)
+    test_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices3)
+    
     
     train_loader = torch.utils.data.DataLoader(train_data,
                                                batch_size=config.batch_size,
-                                               #sampler=train_sampler,
+                                               sampler=train_sampler,
                                                num_workers=config.workers,
                                                pin_memory=True)
     valid_loader = torch.utils.data.DataLoader(val_dat,
                                                batch_size=config.batch_size,
-                                               #sampler=valid_sampler,
+                                               sampler=valid_sampler,
                                                num_workers=config.workers,
                                                pin_memory=True)
     test_loader = torch.utils.data.DataLoader(test_dat,
                                                batch_size=config.batch_size,
-                                               #sampler=valid_sampler,
+                                               sampler=test_sampler,
                                                num_workers=config.workers,
                                                pin_memory=True)
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
