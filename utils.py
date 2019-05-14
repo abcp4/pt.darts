@@ -146,6 +146,7 @@ def load_checkpoint(model, optimizer, filename='checkpoint.pth.tar'):
     if os.path.isfile(filename):
         print("=> loading checkpoint '{}'".format(filename))
         checkpoint = torch.load(filename)
+        print(checkpoint)
         start_epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer'])
