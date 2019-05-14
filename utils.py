@@ -8,7 +8,7 @@ import numpy as np
 import preproc
 
 
-def get_data(dataset, data_path, cutout_length, validation):
+def get_data(dataset, data_path, cutout_length, validation,validation2 = False):
     """ Get torchvision dataset """
     dataset = dataset.lower()
 
@@ -48,13 +48,17 @@ def get_data(dataset, data_path, cutout_length, validation):
     input_size = shape[1]
 
     ret = [input_size, input_channels, n_classes, trn_data]
+        
     if validation: # append validation data
         if dataset == 'custom':
             dset_cls = dset.ImageFolder('/content/geoData/test',transform=val_transform)
             ret.append(dset_cls)
         else:
             ret.append(dset_cls(root=data_path, train=False, download=True, transform=val_transform))
-
+    if validation2:
+        if dataset == 'custom':
+            dset_cls = dset.ImageFolder('/content/geoData/valid',transform=val_transform)
+            ret.append(dset_cls)
     return ret
 
 
