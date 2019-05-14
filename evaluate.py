@@ -96,7 +96,7 @@ def main():
 
         model.print_alphas(logger)
         #load model
-        model, net_crit = utils.load_checkpoint(model, net_crit,'content/pt.darts/searchs/custom/checkpoint.pth.tar')
+        model, net_crit = utils.load_checkpoint(model, net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
         print("Loaded!")
 
         # training
