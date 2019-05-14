@@ -55,6 +55,9 @@ def data_transforms(dataset, cutout_length):
             #transforms.RandomVerticalFlip()
             #transforms.ToTensor()
         ]
+        valtransf = [
+            transforms.Resize((32,32), interpolation=2)
+        ]
     else:
         raise ValueError('not expected dataset = {}'.format(dataset))
     
@@ -70,7 +73,7 @@ def data_transforms(dataset, cutout_length):
         
 
     train_transform = transforms.Compose(transf + normalize)
-    valid_transform = transforms.Compose(normalize)
+    valid_transform = transforms.Compose(valtransf + normalize)
 
     if cutout_length > 0:
         train_transform.transforms.append(Cutout(cutout_length))
