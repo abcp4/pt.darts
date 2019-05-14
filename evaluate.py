@@ -87,7 +87,8 @@ def main():
         w_optim, config.epochs, eta_min=config.w_lr_min)
     architect = Architect(model, config.w_momentum, config.w_weight_decay)
     
-     
+    model  = torch.load('/content/pt.darts/searchs/custom/checkpoint.pth.tar')
+    print("Loaded!")
     # training loop
     best_top1 = 0.
     for epoch in range(config.epochs):
@@ -97,8 +98,7 @@ def main():
         model.print_alphas(logger)
         #load model
         #model, net_crit = utils.load_checkpoint(model, net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
-        model  = torch.load('/content/pt.darts/searchs/custom/checkpoint.pth.tar')
-        print("Loaded!")
+        
 
         # training
         train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
