@@ -234,9 +234,8 @@ def validate(valid_loader, model, epoch, cur_step):
             
     print(preds.shape)
     print(targets.shape)
-    print(np.unique(targets))
-    print(np.unique(preds))
-    a = 2/0
+    print('np.unique(targets):',np.unique(targets))
+    print('np.unique(preds): ',np.unique(preds))
     from sklearn.metrics import classification_report
     from sklearn.metrics import accuracy_score
     print(accuracy_score(targets, preds))
