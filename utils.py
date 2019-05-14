@@ -154,4 +154,4 @@ def load_checkpoint(model, optimizer, filename='checkpoint.pth.tar'):
     else:
         print("=> no checkpoint found at '{}'".format(filename))
 
-    return model, optimizer, start_epoch
+    return model, optimizer
