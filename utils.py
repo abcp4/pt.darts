@@ -30,9 +30,9 @@ def get_data(dataset, data_path, cutout_length, validation,validation2 = False):
     trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length)
     if dataset == 'custom':
         trn_data = dset_cls(root=data_path, transform=trn_transform)
-        dataset_loader = torch.utils.data.DataLoader(trn_data,
-                                             batch_size=16, shuffle=True,
-                                             num_workers=1)
+        #dataset_loader = torch.utils.data.DataLoader(trn_data,
+        #                                     batch_size=16, shuffle=True,
+        #                                     num_workers=1)
         
     else:
         trn_data = dset_cls(root=data_path, train=True, download=True, transform=trn_transform)
@@ -57,7 +57,7 @@ def get_data(dataset, data_path, cutout_length, validation,validation2 = False):
             ret.append(dset_cls(root=data_path, train=False, download=True, transform=val_transform))
     if validation2:
         if dataset == 'custom':
-            dset_cls = dset.ImageFolder('/content/geoData/valid',transform=val_transform)
+            dset_cls = dset.ImageFolder('/content/geoData/valid',transform=trn_transform)
             ret.append(dset_cls)
     return ret
 
