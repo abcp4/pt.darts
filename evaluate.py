@@ -37,8 +37,8 @@ def main():
     torch.backends.cudnn.benchmark = True
 
     # get data with meta info
-    input_size, input_channels, n_classes, train_data = utils.get_data(
-        config.dataset, config.data_path, cutout_length=0, validation=False)
+    input_size, input_channels, n_classes, train_data, test_dat = utils.get_data(
+        config.dataset, config.data_path, cutout_length=0, validation=True)
 
     net_crit = nn.CrossEntropyLoss().to(device)
     model = SearchCNNController(input_channels, config.init_channels, n_classes, config.layers,
@@ -52,6 +52,9 @@ def main():
     alpha_optim = torch.optim.Adam(model.alphas(), config.alpha_lr, betas=(0.5, 0.999),
                                    weight_decay=config.alpha_weight_decay)
 
+    #balanced split to train/validation
+    print(train_data)
+    a=2/0
     # split data to train/validation
     n_train = len(train_data)
     split = n_train // 2
@@ -63,7 +66,7 @@ def main():
                                                sampler=train_sampler,
                                                num_workers=config.workers,
                                                pin_memory=True)
-    valid_loader = torch.utils.data.DataLoader(train_data,
+    valid_loader = torch.utils.data.DataLoader(val_dat,
                                                batch_size=config.batch_size,
                                                sampler=valid_sampler,
                                                num_workers=config.workers,
