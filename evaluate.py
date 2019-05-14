@@ -54,7 +54,7 @@ def main():
 
     #balanced split to train/validation
     print(train_data)
-    #a=2/0
+    
     # split data to train/validation
     n_train = len(train_data)
     n_val = len(val_dat)
@@ -97,7 +97,7 @@ def main():
         model.print_alphas(logger)
         #load model
         model, net_crit, logger = utils.load_checkpoint(model, net_crit, logger,'content/pt.darts/searchs/custom/checkpoint.pth.tar')
-   
+        print("Loaded!")
 
         # training
         train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
