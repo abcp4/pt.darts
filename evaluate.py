@@ -72,6 +72,11 @@ def main():
                                                #sampler=valid_sampler,
                                                num_workers=config.workers,
                                                pin_memory=True)
+    test_loader = torch.utils.data.DataLoader(test_dat,
+                                               batch_size=config.batch_size,
+                                               #sampler=valid_sampler,
+                                               num_workers=config.workers,
+                                               pin_memory=True)
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         w_optim, config.epochs, eta_min=config.w_lr_min)
     architect = Architect(model, config.w_momentum, config.w_weight_decay)
@@ -89,7 +94,7 @@ def main():
 
         # validation
         cur_step = (epoch+1) * len(train_loader)
-        top1 = validate(valid_loader, model, epoch, cur_step)
+        top1 = validate(test_loader, model, epoch, cur_step)
 
         # log
         # genotype
