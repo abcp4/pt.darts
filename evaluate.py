@@ -86,7 +86,10 @@ def main():
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         w_optim, config.epochs, eta_min=config.w_lr_min)
     architect = Architect(model, config.w_momentum, config.w_weight_decay)
-
+    
+    #load model
+    model, net_crit, logger = utils.load_checkpoint(model, net_crit, logger,'content/pt.darts/searchs/custom/checkpoint.pth.tar')
+    
     # training loop
     best_top1 = 0.
     for epoch in range(config.epochs):
