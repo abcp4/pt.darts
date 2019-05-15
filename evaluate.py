@@ -85,7 +85,7 @@ def main():
                                                pin_memory=True)
     
     #load
-    model,config.epochs,w_optim,alpha_optim,net_crit = utils.load_checkpoint(model,config.epochs,w_optim,alpha_optim,net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
+    #model,config.epochs,w_optim,alpha_optim,net_crit = utils.load_checkpoint(model,config.epochs,w_optim,alpha_optim,net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
      
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         w_optim, config.epochs, eta_min=config.w_lr_min)
@@ -105,7 +105,7 @@ def main():
         
 
         # training
-        #train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
+        train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
 
         # validation
         cur_step = (epoch+1) * len(train_loader)
