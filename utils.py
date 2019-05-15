@@ -133,12 +133,13 @@ def accuracy(output, target, topk=(1,)):
     return res
 
 
-def save_checkpoint(model,epoch,optimizer,loss, ckpt_dir, is_best=False):
+def save_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, ckpt_dir, is_best=False):
     filename = os.path.join(ckpt_dir, 'checkpoint.pth.tar')
     torch.save({
             'epoch': epoch,
             'model_state_dict': model.state_dict(),
-            'optimizer_state_dict': optimizer.state_dict(),
+            'w_optimizer_state_dict': w_optimizer.state_dict(),
+            'a_optimizer_state_dict': a_optimizer.state_dict(),
             'loss': loss
                 }, filename)
     if is_best:
