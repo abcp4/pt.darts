@@ -84,7 +84,8 @@ def main():
                                                num_workers=config.workers,
                                                pin_memory=True)
     
-    model,epoch,w_optim,alpha_optim,net_crit = utils.load_checkpoint(model,epoch,w_optim,alpha_optim,net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
+    #load
+    model,config.epochs,w_optim,alpha_optim,net_crit = utils.load_checkpoint(model,config.epochs,w_optim,alpha_optim,net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
      
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         w_optim, config.epochs, eta_min=config.w_lr_min)
