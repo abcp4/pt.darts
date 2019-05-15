@@ -152,7 +152,7 @@ def load_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, filename='checkpoi
     if os.path.isfile(filename):
         print("=> loading checkpoint '{}'".format(filename))
         checkpoint = torch.load(filename)
-        print(checkpoint)
+        #print(checkpoint)
         epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['model_state_dict'])
         w_optimizer.load_state_dict(checkpoint['w_optimizer_state_dict'])
