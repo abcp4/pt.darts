@@ -125,8 +125,8 @@ def main():
             is_best = True
         else:
             is_best = False
-        utils.save_checkpoint(model, config.path, is_best)
-        print("")
+        utils.save_checkpoint(model,epoch,w_optim,alpha_optim,net_crit, config.path, is_best)
+        print("saved!")
 
     logger.info("Final best Prec@1 = {:.4%}".format(best_top1))
     logger.info("Best Genotype = {}".format(best_genotype))
