@@ -83,11 +83,15 @@ def main():
                                                sampler=test_sampler,
                                                num_workers=config.workers,
                                                pin_memory=True)
+    
+    model,epoch,w_optim,alpha_optim,net_crit = utils.load_checkpoint(model,epoch,w_optim,alpha_optim,net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
+     
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         w_optim, config.epochs, eta_min=config.w_lr_min)
     architect = Architect(model, config.w_momentum, config.w_weight_decay)
     
     #model  = torch.load('/content/pt.darts/searchs/custom/checkpoint.pth.tar')
+       
     #print("Loaded!")
     # training loop
     best_top1 = 0.
@@ -97,7 +101,6 @@ def main():
 
         model.print_alphas(logger)
         #load model
-        #model, net_crit = utils.load_checkpoint(model, net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
         
 
         # training
