@@ -96,6 +96,7 @@ def main():
     #print("Loaded!")
     # training loop
     best_top1 = 0.
+    best_top_overall = -999
     for epoch in range(config.epochs):
         lr_scheduler.step()
         lr = lr_scheduler.get_lr()[0]
@@ -110,7 +111,7 @@ def main():
         # validation
         cur_step = (epoch+1) * len(train_loader)
         print("###################VALID#########################")
-        validate(valid_loader, model, epoch, cur_step)
+        top_overall = validate(valid_loader, model, epoch, cur_step,overall = True)
         print("###################END VALID#########################")
         
         # test
@@ -136,11 +137,20 @@ def main():
             is_best = True
         else:
             is_best = False
-        utils.save_checkpoint(model,epoch,w_optim,alpha_optim,net_crit, config.path, is_best)
+        #save best overall(macro avg of f1 prec and recall)
+        if(best_top_overall < top_overall):
+            best_top_overall = top_overall
+            best_genotype_overall  = genotype
+            is_best_overall = True
+        else:
+            is_best_overall = False
+        
+        utils.save_checkpoint(model,epoch,w_optim,alpha_optim,net_crit, config.path, is_best,is_best_overall)
         print("saved!")
 
     logger.info("Final best Prec@1 = {:.4%}".format(best_top1))
     logger.info("Best Genotype = {}".format(best_genotype))
+    logger.info("Best Genotype Overall = {}".format(best_genotype_overall))
 
 
 def train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch):
@@ -192,7 +202,7 @@ def train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr
     logger.info("Train: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
 
-def validate(valid_loader, model, epoch, cur_step):
+def validate(valid_loader, model, epoch, cur_step,overall = False):
     top1 = utils.AverageMeter()
     top5 = utils.AverageMeter()
     losses = utils.AverageMeter()
@@ -255,10 +265,16 @@ def validate(valid_loader, model, epoch, cur_step):
     from sklearn.metrics import classification_report
     from sklearn.metrics import accuracy_score
     print(accuracy_score(targets, preds))
+    cr = classification_report(targets, preds,output_dict= True)
+    a1,a2,a3 = cr['macro avg']['f1-score'] ,cr['macro avg']['precision'],cr['macro avg']['recall'] 
+    topover = (a1+a2+a3)/3 
     print(classification_report(targets, preds))
 
     logger.info("Valid: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
-
+    logger.info("Valid: [{:2d}/{}] Overall {:.4%}".format(epoch+1, config.epochs, topover))
+    
+    if overall:
+        return topover
     return top1.avg
 
 
