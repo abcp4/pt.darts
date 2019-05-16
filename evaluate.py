@@ -101,16 +101,23 @@ def main():
         lr = lr_scheduler.get_lr()[0]
 
         model.print_alphas(logger)
-        #load model
         
-
+        print("###################TRAINING#########################")
         # training
         train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
-
+        print("###################END TRAINING#########################")
+        
         # validation
         cur_step = (epoch+1) * len(train_loader)
+        print("###################VALID#########################")
+        validate(valid_loader, model, epoch, cur_step)
+        print("###################END VALID#########################")
+        
+        # test
+        print("###################TEST#########################")
         top1 = validate(test_loader, model, epoch, cur_step)
-
+        print("###################END TEST#########################")
+        
         # log
         # genotype
         genotype = model.genotype()
