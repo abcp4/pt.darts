@@ -133,7 +133,7 @@ def accuracy(output, target, topk=(1,)):
     return res
 
 
-def save_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, ckpt_dir, is_best=False):
+def save_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, ckpt_dir, is_best=False, is_best_overall =False):
     filename = os.path.join(ckpt_dir, 'checkpoint.pth.tar')
     torch.save({
             'epoch': epoch,
@@ -144,6 +144,9 @@ def save_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, ckpt_dir, is_best=
                 }, filename)
     if is_best:
         best_filename = os.path.join(ckpt_dir, 'best.pth.tar')
+        shutil.copyfile(filename, best_filename)
+    if is_best_overall:
+        best_filename = os.path.join(ckpt_dir, 'best_overall.pth.tar')
         shutil.copyfile(filename, best_filename)
         
 def load_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, filename='checkpoint.pth.tar'):
