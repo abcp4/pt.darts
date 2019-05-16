@@ -97,8 +97,7 @@ def main():
     # training loop
     best_top1 = 0.
     best_top_overall = -999
-    print('Epochs:',config.epochs)
-    a = 2/0
+    config.epochs = 300#BUG, config epochs ta com algum erro
     for epoch in range(config.epochs):
         lr_scheduler.step()
         lr = lr_scheduler.get_lr()[0]
