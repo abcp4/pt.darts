@@ -62,7 +62,7 @@ def main():
     split = n_train // 2
     indices1 = list(range(n_train))
     indices2 = list(range(n_val))
-    indices3 = list(range(n_test))o
+    indices3 = list(range(n_test))
     train_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices1)
     valid_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices2)
     test_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices3)
