@@ -271,6 +271,14 @@ def validate(valid_loader, model, epoch, cur_step,overall = False):
     a1,a2,a3 = cr['macro avg']['f1-score'] ,cr['macro avg']['precision'],cr['macro avg']['recall'] 
     topover = (a1+a2+a3)/3 
     print(classification_report(targets, preds))
+    from sklearn.metrics import balanced_accuracy_score
+    from sklearn.metrics import accuracy_score
+    print(balanced_accuracy_score(y_test, y_pred))
+    print(accuracy_score(y_test, y_pred))
+    from sklearn.metrics import confusion_matrix
+    matrix = confusion_matrix(y_test, y_pred)
+    print(matrix.diagonal()/matrix.sum(axis=1))
+    print(matrix)
 
     logger.info("Valid: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
     logger.info("Valid: [{:2d}/{}] Overall {:.4%}".format(epoch+1, config.epochs, topover))
