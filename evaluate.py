@@ -273,10 +273,10 @@ def validate(valid_loader, model, epoch, cur_step,overall = False):
     print(classification_report(targets, preds))
     from sklearn.metrics import balanced_accuracy_score
     from sklearn.metrics import accuracy_score
-    print(balanced_accuracy_score(y_test, y_pred))
-    print(accuracy_score(y_test, y_pred))
+    print(balanced_accuracy_score(targets, preds))
+    print(accuracy_score(targets, preds))
     from sklearn.metrics import confusion_matrix
-    matrix = confusion_matrix(y_test, y_pred)
+    matrix = confusion_matrix(targets, preds)
     print(matrix.diagonal()/matrix.sum(axis=1))
     print(matrix)
 
