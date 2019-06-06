@@ -9,6 +9,7 @@ import utils
 from models.search_cnn import SearchCNNController
 from architect import Architect
 from visualize import plot
+import genotypes
 
 
 config = SearchConfig()
