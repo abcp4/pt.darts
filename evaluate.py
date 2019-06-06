@@ -331,7 +331,7 @@ def set_model_weights(model, weights):
 
 def sample_arch(model):
     n_nodes = model.n_nodes
-    k = sum(1 for i in range(model._steps) for n in range(2+i))
+    k = sum(1 for i in range(n_nodes) for n in range(2+i))
     num_ops = len(genotypes.PRIMITIVES)
     #n_nodes = model._steps
 
@@ -352,7 +352,7 @@ def perturb_arch(model,arch):
     num_ops = len(genotypes.PRIMITIVES)
 
     cell_ind = np.random.choice(2)
-    step_ind = np.random.choice(model._steps)
+    step_ind = np.random.choice(model.n_nodes)
     nodes_in = np.random.choice(step_ind+2, 2, replace=False)
     ops = np.random.choice(range(num_ops), 2)
 
