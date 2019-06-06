@@ -155,13 +155,17 @@ def main():
     logger.info("Best Genotype Overall = {}".format(best_genotype_overall))
 
 
-def train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch):
+def train(train_loader, valid_loader, model, arch, w_optim, alpha_optim, lr, epoch):
     top1 = utils.AverageMeter()
     top5 = utils.AverageMeter()
     losses = utils.AverageMeter()
 
     cur_step = epoch*len(train_loader)
     writer.add_scalar('train/lr', lr, cur_step)
+
+    #rs weigths sampling
+    weights = self.get_weights_from_arch(arch)
+    self.set_model_weights(weights)
 
     model.train()
 
@@ -171,9 +175,9 @@ def train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr
         N = trn_X.size(0)
 
         # phase 2. architect step (alpha)
-        alpha_optim.zero_grad()
-        architect.unrolled_backward(trn_X, trn_y, val_X, val_y, lr, w_optim)
-        alpha_optim.step()
+        #alpha_optim.zero_grad()
+        #architect.unrolled_backward(trn_X, trn_y, val_X, val_y, lr, w_optim)
+        #alpha_optim.step()
 
         # phase 1. child network step (w)
         w_optim.zero_grad()
