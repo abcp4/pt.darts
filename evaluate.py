@@ -298,9 +298,10 @@ def validate(valid_loader, model,arch, epoch, cur_step,overall = False):
 
 
 def get_weights_from_arch(arch):
-    k = sum(1 for i in range(model._steps) for n in range(2+i))
+    n_nodes = model.n_nodes
+    k = sum(1 for i in range(n_nodes) for n in range(2+i))
     num_ops = len(genotypes.PRIMITIVES)
-    n_nodes = model._steps
+    #n_nodes = model._steps
 
     alphas_normal = Variable(torch.zeros(k, num_ops).cuda(), requires_grad=False)
     alphas_reduce = Variable(torch.zeros(k, num_ops).cuda(), requires_grad=False)
@@ -329,9 +330,10 @@ def set_model_weights(model, weights):
   model._arch_parameters = [model.alphas_normal, model.alphas_reduce]
 
 def sample_arch(model):
+    n_nodes = model.n_nodes
     k = sum(1 for i in range(model._steps) for n in range(2+i))
     num_ops = len(genotypes.PRIMITIVES)
-    n_nodes = model._steps
+    #n_nodes = model._steps
 
     normal = []
     reduction = []
