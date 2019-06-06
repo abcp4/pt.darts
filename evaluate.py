@@ -11,6 +11,10 @@ from architect import Architect
 from visualize import plot
 import genotypes
 
+from torch.autograd import Variable
+import torch.nn.functional as F
+import torch.backends.cudnn as cudnn
+
 
 config = SearchConfig()
 
