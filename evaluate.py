@@ -298,7 +298,7 @@ def validate(valid_loader, model,arch, epoch, cur_step,overall = False):
 
 
 
-def get_weights_from_arch(arch):
+def get_weights_from_arch(model,arch):
     n_nodes = model.n_nodes
     k = sum(1 for i in range(n_nodes) for n in range(2+i))
     num_ops = len(genotypes.PRIMITIVES)
