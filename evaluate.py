@@ -107,18 +107,20 @@ def main():
         
         print("###################TRAINING#########################")
         # training
-        train(train_loader, valid_loader, model, architect, w_optim, alpha_optim, lr, epoch)
+        #sample rs arch
+        arch = sample_arch(model)
+        train(train_loader, valid_loader, model, arch, w_optim, alpha_optim, lr, epoch)
         print("###################END TRAINING#########################")
         
         # validation
         cur_step = (epoch+1) * len(train_loader)
         print("###################VALID#########################")
-        top_overall = validate(valid_loader, model, epoch, cur_step,overall = True)
+        top_overall = validate(valid_loader, model, arch,epoch, cur_step,overall = True)
         print("###################END VALID#########################")
         
         # test
         print("###################TEST#########################")
-        top1 = validate(test_loader, model, epoch, cur_step)
+        top1 = validate(test_loader, model, arch,epoch, cur_step)
         print("###################END TEST#########################")
         
         # log
@@ -164,8 +166,8 @@ def train(train_loader, valid_loader, model, arch, w_optim, alpha_optim, lr, epo
     writer.add_scalar('train/lr', lr, cur_step)
 
     #rs weigths sampling
-    weights = self.get_weights_from_arch(arch)
-    self.set_model_weights(weights)
+    weights = get_weights_from_arch(model,arch)
+    set_model_weights(model,weights)
 
     model.train()
 
@@ -208,10 +210,12 @@ def train(train_loader, valid_loader, model, arch, w_optim, alpha_optim, lr, epo
     logger.info("Train: [{:2d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
 
-def validate(valid_loader, model, epoch, cur_step,overall = False):
+def validate(valid_loader, model,arch, epoch, cur_step,overall = False):
     top1 = utils.AverageMeter()
     top5 = utils.AverageMeter()
     losses = utils.AverageMeter()
+    weights = get_weights_from_arch(model,arch)
+    set_model_weights(model,weights)
     model.eval()
     import numpy as np
     preds = np.asarray([])
@@ -290,6 +294,69 @@ def validate(valid_loader, model, epoch, cur_step,overall = False):
     if overall:
         return topover
     return top1.avg
+
+
+
+def get_weights_from_arch(arch):
+    k = sum(1 for i in range(model._steps) for n in range(2+i))
+    num_ops = len(genotypes.PRIMITIVES)
+    n_nodes = model._steps
+
+    alphas_normal = Variable(torch.zeros(k, num_ops).cuda(), requires_grad=False)
+    alphas_reduce = Variable(torch.zeros(k, num_ops).cuda(), requires_grad=False)
+
+    offset = 0
+    for i in range(n_nodes):
+        normal1 = arch[0][2*i]
+        normal2 = arch[0][2*i+1]
+        reduce1 = arch[1][2*i]
+        reduce2 = arch[1][2*i+1]
+        alphas_normal[offset+normal1[0], normal1[1]] = 1
+        alphas_normal[offset+normal2[0], normal2[1]] = 1
+        alphas_reduce[offset+reduce1[0], reduce1[1]] = 1
+        alphas_reduce[offset+reduce2[0], reduce2[1]] = 1
+        offset += (i+2)
+
+    arch_parameters = [
+      alphas_normal,
+      alphas_reduce,
+    ]
+    return arch_parameters
+
+def set_model_weights(model, weights):
+  model.alphas_normal = weights[0]
+  model.alphas_reduce = weights[1]
+  model._arch_parameters = [model.alphas_normal, model.alphas_reduce]
+
+def sample_arch(model):
+    k = sum(1 for i in range(model._steps) for n in range(2+i))
+    num_ops = len(genotypes.PRIMITIVES)
+    n_nodes = model._steps
+
+    normal = []
+    reduction = []
+    for i in range(n_nodes):
+        ops = np.random.choice(range(num_ops), 4)
+        nodes_in_normal = np.random.choice(range(i+2), 2, replace=False)
+        nodes_in_reduce = np.random.choice(range(i+2), 2, replace=False)
+        normal.extend([(nodes_in_normal[0], ops[0]), (nodes_in_normal[1], ops[1])])
+        reduction.extend([(nodes_in_reduce[0], ops[2]), (nodes_in_reduce[1], ops[3])])
+
+    return (normal, reduction)
+
+
+def perturb_arch(model,arch):
+    new_arch = copy.deepcopy(arch)
+    num_ops = len(genotypes.PRIMITIVES)
+
+    cell_ind = np.random.choice(2)
+    step_ind = np.random.choice(model._steps)
+    nodes_in = np.random.choice(step_ind+2, 2, replace=False)
+    ops = np.random.choice(range(num_ops), 2)
+
+    new_arch[cell_ind][2*step_ind] = (nodes_in[0], ops[0])
+    new_arch[cell_ind][2*step_ind+1] = (nodes_in[1], ops[1])
+    return new_arch
 
 
 if __name__ == "__main__":
