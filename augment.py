@@ -35,10 +35,10 @@ def main():
     torch.backends.cudnn.benchmark = True
 
     # get data with meta info
-    #input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
-    #    config.dataset, config.data_path, config.cutout_length, validation=True)
-    input_size, input_channels, n_classes, train_data, test_dat, val_dat = utils.get_data(
-        config.dataset, config.data_path, cutout_length=0, validation=True,validation2 = True)
+    input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
+        config.dataset, config.data_path, config.cutout_length, validation=True)
+    #input_size, input_channels, n_classes, train_data, test_dat, val_dat = utils.get_data(
+    #    config.dataset, config.data_path, cutout_length=0, validation=True,validation2 = True)
     
     criterion = nn.CrossEntropyLoss().to(device)
     use_aux = config.aux_weight > 0.
