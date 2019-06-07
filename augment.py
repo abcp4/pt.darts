@@ -60,6 +60,7 @@ def main():
     
      
     # split data to train/validation
+    """
     n_train = len(train_data)
     n_val = len(val_dat)
     n_test = len(test_dat)
@@ -99,7 +100,7 @@ def main():
                                                shuffle=False,
                                                num_workers=config.workers,
                                                pin_memory=True)
-    """
+    
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
 
     best_top1 = 0.
