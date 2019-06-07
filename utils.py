@@ -46,6 +46,7 @@ def get_data(dataset, data_path, cutout_length, validation,validation2 = False):
     input_channels = 3 if len(shape) == 4 else 1
     assert shape[1] == shape[2], "not expected shape = {}".format(shape)
     input_size = shape[1]
+    print('input_size: uitls',input_size)
 
     ret = [input_size, input_channels, n_classes, trn_data]
         
