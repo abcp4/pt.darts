@@ -33,7 +33,7 @@ def main():
     torch.cuda.manual_seed_all(config.seed)
 
     torch.backends.cudnn.benchmark = True
-
+    print('input_size', input_size)
     # get data with meta info
     input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
         config.dataset, config.data_path, config.cutout_length, validation=True)
