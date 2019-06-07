@@ -35,9 +35,11 @@ def main():
     torch.backends.cudnn.benchmark = True
 
     # get data with meta info
-    input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
-        config.dataset, config.data_path, config.cutout_length, validation=True)
-
+    #input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
+    #    config.dataset, config.data_path, config.cutout_length, validation=True)
+    input_size, input_channels, n_classes, train_data, test_dat, val_dat = utils.get_data(
+        config.dataset, config.data_path, cutout_length=0, validation=True,validation2 = True)
+    
     criterion = nn.CrossEntropyLoss().to(device)
     use_aux = config.aux_weight > 0.
     model = AugmentCNN(input_size, input_channels, config.init_channels, n_classes, config.layers,
@@ -51,7 +53,38 @@ def main():
     # weights optimizer
     optimizer = torch.optim.SGD(model.parameters(), config.lr, momentum=config.momentum,
                                 weight_decay=config.weight_decay)
-
+    
+     
+    # split data to train/validation
+    n_train = len(train_data)
+    n_val = len(val_dat)
+    n_test = len(test_dat)
+    split = n_train // 2
+    indices1 = list(range(n_train))
+    indices2 = list(range(n_val))
+    indices3 = list(range(n_test))
+    train_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices1)
+    valid_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices2)
+    test_sampler = torch.utils.data.sampler.SubsetRandomSampler(indices3)
+    
+    
+    train_loader = torch.utils.data.DataLoader(train_data,
+                                               batch_size=config.batch_size,
+                                               sampler=train_sampler,
+                                               num_workers=config.workers,
+                                               pin_memory=True)
+    valid_loader = torch.utils.data.DataLoader(val_dat,
+                                               batch_size=config.batch_size,
+                                               sampler=valid_sampler,
+                                               num_workers=config.workers,
+                                               pin_memory=True)
+    test_loader = torch.utils.data.DataLoader(test_dat,
+                                               batch_size=config.batch_size,
+                                               sampler=test_sampler,
+                                               num_workers=config.workers,
+                                               pin_memory=True)
+    
+    """
     train_loader = torch.utils.data.DataLoader(train_data,
                                                batch_size=config.batch_size,
                                                shuffle=True,
@@ -62,6 +95,7 @@ def main():
                                                shuffle=False,
                                                num_workers=config.workers,
                                                pin_memory=True)
+    """
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
 
     best_top1 = 0.
