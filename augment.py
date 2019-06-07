@@ -42,6 +42,10 @@ def main():
     
     criterion = nn.CrossEntropyLoss().to(device)
     use_aux = config.aux_weight > 0.
+    #from evaluate
+    #model = SearchCNNController(input_channels, config.init_channels, n_classes, config.layers,
+    #                            net_crit, device_ids=config.gpus)
+
     model = AugmentCNN(input_size, input_channels, config.init_channels, n_classes, config.layers,
                        use_aux, config.genotype)
     model = nn.DataParallel(model, device_ids=config.gpus).to(device)
