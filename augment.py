@@ -33,13 +33,13 @@ def main():
     torch.cuda.manual_seed_all(config.seed)
 
     torch.backends.cudnn.benchmark = True
-    print('input_size', input_size)
+    
     # get data with meta info
     input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
         config.dataset, config.data_path, config.cutout_length, validation=True)
     #input_size, input_channels, n_classes, train_data, test_dat, val_dat = utils.get_data(
     #    config.dataset, config.data_path, cutout_length=0, validation=True,validation2 = True)
-    
+    print('input_size', input_size)
     criterion = nn.CrossEntropyLoss().to(device)
     use_aux = config.aux_weight > 0.
     #from evaluate
