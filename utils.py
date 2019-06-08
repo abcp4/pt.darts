@@ -168,3 +168,38 @@ def load_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, filename='checkpoi
         print("=> no checkpoint found at '{}'".format(filename))
 
     return model,epoch,w_optimizer,a_optimizer,loss
+
+
+
+def save_checkpoint(model,epoch,optimizer,loss, ckpt_dir, is_best=False, is_best_overall =False):
+    filename = os.path.join(ckpt_dir, 'checkpoint.pth.tar')
+    torch.save({
+            'epoch': epoch,
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            'loss': loss
+                }, filename)
+    if is_best:
+        best_filename = os.path.join(ckpt_dir, 'best.pth.tar')
+        shutil.copyfile(filename, best_filename)
+    if is_best_overall:
+        best_filename = os.path.join(ckpt_dir, 'best_overall.pth.tar')
+        shutil.copyfile(filename, best_filename)
+        
+def load_checkpoint(model,epoch,optimizer,loss, filename='checkpoint.pth.tar'):
+# Note: Input model & optimizer should be pre-defined.  This routine only updates their states.
+    start_epoch = 0
+    if os.path.isfile(filename):
+        print("=> loading checkpoint '{}'".format(filename))
+        checkpoint = torch.load(filename)
+        #print(checkpoint)
+        epoch = checkpoint['epoch']
+        model.load_state_dict(checkpoint['model_state_dict'])
+        w_optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        loss = checkpoint['loss']
+        print("=> loaded checkpoint '{}' (epoch {})"
+                  .format(filename, checkpoint['epoch']))
+    else:
+        print("=> no checkpoint found at '{}'".format(filename))
+
+    return model,epoch,optimizer,loss
