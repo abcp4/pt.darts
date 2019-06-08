@@ -171,7 +171,7 @@ def load_checkpoint(model,epoch,w_optimizer,a_optimizer,loss, filename='checkpoi
 
 
 
-def save_checkpoint(model,epoch,optimizer,loss, ckpt_dir, is_best=False, is_best_overall =False):
+def save_checkpoint2(model,epoch,optimizer,loss, ckpt_dir, is_best=False, is_best_overall =False):
     filename = os.path.join(ckpt_dir, 'checkpoint.pth.tar')
     torch.save({
             'epoch': epoch,
@@ -186,7 +186,7 @@ def save_checkpoint(model,epoch,optimizer,loss, ckpt_dir, is_best=False, is_best
         best_filename = os.path.join(ckpt_dir, 'best_overall.pth.tar')
         shutil.copyfile(filename, best_filename)
         
-def load_checkpoint(model,epoch,optimizer,loss, filename='checkpoint.pth.tar'):
+def load_checkpoint2(model,epoch,optimizer,loss, filename='checkpoint.pth.tar'):
 # Note: Input model & optimizer should be pre-defined.  This routine only updates their states.
     start_epoch = 0
     if os.path.isfile(filename):
