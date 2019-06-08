@@ -10,7 +10,7 @@ class AuxiliaryHead(nn.Module):
     def __init__(self, input_size, C, n_classes):
         """ assuming input size 7x7 or 8x8 """
         print('input_size:',input_size)
-        assert input_size in [7, 8]
+        assert input_size in [7, 8, 16]
         super().__init__()
         self.net = nn.Sequential(
             nn.ReLU(inplace=True),
