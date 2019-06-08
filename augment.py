@@ -35,10 +35,10 @@ def main():
     torch.backends.cudnn.benchmark = True
     
     # get data with meta info
-    input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
-        config.dataset, config.data_path, config.cutout_length, validation=True)
-    #input_size, input_channels, n_classes, train_data, test_dat, val_dat = utils.get_data(
-    #    config.dataset, config.data_path, cutout_length=0, validation=True,validation2 = True)
+    #input_size, input_channels, n_classes, train_data, valid_data = utils.get_data(
+    #    config.dataset, config.data_path, config.cutout_length, validation=True)
+    input_size, input_channels, n_classes, train_data, test_dat, val_dat = utils.get_data(
+        config.dataset, config.data_path, cutout_length=0, validation=True,validation2 = True)
     print('input_size', input_size)
     criterion = nn.CrossEntropyLoss().to(device)
     use_aux = config.aux_weight > 0.
@@ -60,7 +60,7 @@ def main():
     
      
     # split data to train/validation
-    """
+    
     n_train = len(train_data)
     n_val = len(val_dat)
     n_test = len(test_dat)
@@ -100,7 +100,7 @@ def main():
                                                shuffle=False,
                                                num_workers=config.workers,
                                                pin_memory=True)
-    
+    """
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
 
     best_top1 = 0.
