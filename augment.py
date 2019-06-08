@@ -126,7 +126,7 @@ def main():
         else:
             is_best = False
         #utils.save_checkpoint(model, config.path, is_best)
-        utils.save_checkpoint(model,epoch,w_optim,alpha_optim,net_crit, config.path, is_best,is_best_overall)
+        utils.save_checkpoint2(model,epoch,optimizer,criterion, config.path, is_best,is_best_overall)
         print("")
 
     logger.info("Final best Prec@1 = {:.4%}".format(best_top1))
