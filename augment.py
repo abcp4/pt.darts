@@ -176,7 +176,7 @@ def train(train_loader, model, optimizer, criterion, epoch):
     logger.info("Train: [{:3d}/{}] Final Prec@1 {:.4%}".format(epoch+1, config.epochs, top1.avg))
 
 
-def validate(valid_loader, model, epoch, cur_step,overall = False):
+def validate(valid_loader, model, criterion,epoch, cur_step,overall = False):
     top1 = utils.AverageMeter()
     top5 = utils.AverageMeter()
     losses = utils.AverageMeter()
@@ -190,7 +190,7 @@ def validate(valid_loader, model, epoch, cur_step,overall = False):
             N = X.size(0)
 
             logits = model(X)
-            loss = model.criterion(logits, y)
+            loss = criterion(logits, y)
 
             prec1, prec5 = utils.accuracy(logits, y, topk=(1, 5))
             target = y
