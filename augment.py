@@ -60,6 +60,8 @@ def main():
     
      
     # split data to train/validation
+    best_top1 = 0.
+    best_top_overall = -999
     
     n_train = len(train_data)
     n_val = len(val_dat)
@@ -123,8 +125,8 @@ def main():
             is_best = True
         else:
             is_best = False
-        utils.save_checkpoint(model, config.path, is_best)
-
+        #utils.save_checkpoint(model, config.path, is_best)
+        utils.save_checkpoint(model,epoch,w_optim,alpha_optim,net_crit, config.path, is_best,is_best_overall)
         print("")
 
     logger.info("Final best Prec@1 = {:.4%}".format(best_top1))
