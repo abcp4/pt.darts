@@ -339,6 +339,7 @@ def sample_arch(model):
     k = sum(1 for i in range(n_nodes) for n in range(2+i))
     num_ops = len(genotypes.PRIMITIVES)
     #n_nodes = model._steps
+    print("Number of nodes:",n_nodes)
 
     normal = []
     reduction = []
@@ -348,7 +349,7 @@ def sample_arch(model):
         nodes_in_reduce = np.random.choice(range(i+2), 2, replace=False)
         normal.extend([(nodes_in_normal[0], ops[0]), (nodes_in_normal[1], ops[1])])
         reduction.extend([(nodes_in_reduce[0], ops[2]), (nodes_in_reduce[1], ops[3])])
-
+    print("normal:",normal)
     return (normal, reduction)
 
 
