@@ -130,6 +130,7 @@ def main():
         
         # log
         # genotype
+        print("Model Alpha:",model.alpha_normal)
         genotype = model.genotype()
         logger.info("genotype = {}".format(genotype))
 
