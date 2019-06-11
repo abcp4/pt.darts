@@ -120,12 +120,12 @@ def main():
         # validation
         cur_step = (epoch+1) * len(train_loader)
         print("###################VALID#########################")
-        top_overall = validate(valid_loader, model, arch,epoch, cur_step,overall = True)
+        top1,top_overall = validate(valid_loader, model, arch,epoch, cur_step,overall = True)
         print("###################END VALID#########################")
         
         # test
         print("###################TEST#########################")
-        top1 = validate(test_loader, model, arch,epoch, cur_step)
+        validate(test_loader, model, arch,epoch, cur_step)
         print("###################END TEST#########################")
         
         # log
@@ -298,7 +298,7 @@ def validate(valid_loader, model,arch, epoch, cur_step,overall = False):
     logger.info("Valid: [{:2d}/{}] Overall {:.4%}".format(epoch+1, config.epochs, topover))
     
     if overall:
-        return topover
+        return top1.avg,topover
     return top1.avg
 
 
@@ -328,6 +328,7 @@ def get_weights_from_arch(model,arch):
       alphas_normal,
       alphas_reduce,
     ]
+    print('arch parameters: ',arch_parameters)
     return arch_parameters
 
 def set_model_weights(model, weights):
