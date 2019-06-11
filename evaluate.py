@@ -335,6 +335,7 @@ def get_weights_from_arch(model,arch):
 def set_model_weights(model, weights):
   model.alphas_normal = weights[0]
   model.alphas_reduce = weights[1]
+  print("Setting alphas normal:",model.alphas_normal)
   model._arch_parameters = [model.alphas_normal, model.alphas_reduce]
 
 def sample_arch(model):
