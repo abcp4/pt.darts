@@ -136,6 +136,7 @@ def main():
         # genotype as a image
         plot_path = os.path.join(config.plot_path, "EP{:02d}".format(epoch+1))
         caption = "Epoch {}".format(epoch+1)
+        print("Genotype normal:",genotype.normal)
         plot(genotype.normal, plot_path + "-normal", caption)
         plot(genotype.reduce, plot_path + "-reduce", caption)
 
