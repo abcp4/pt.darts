@@ -92,7 +92,17 @@ def main():
     #load
     if(config.load):
         model,config.epochs,w_optim,alpha_optim,net_crit = utils.load_checkpoint(model,config.epochs,w_optim,alpha_optim,net_crit,'/content/pt.darts/searchs/custom/checkpoint.pth.tar')
-     
+    
+    input_np = np.random.uniform(0, 1, (1, 64, 64,3))
+    input_var = Variable(torch.FloatTensor(input_np))
+    from converter import pytorch_to_keras
+    # we should specify shape of the input tensor
+    k_model = pytorch_to_keras(model, input_var, [(1, 64, 64,3)], verbose=True)  
+    #from pytorch2keras.converter import pytorch_to_keras
+    # we should specify shape of the input tensor
+    #k_model = pytorch_to_keras(model, input_var, [(10, None, None,)], verbose=True) 
+    a = 2/0
+    
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         w_optim, config.epochs, eta_min=config.w_lr_min)
     architect = Architect(model, config.w_momentum, config.w_weight_decay)
