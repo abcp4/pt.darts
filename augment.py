@@ -103,7 +103,9 @@ def main():
                                                num_workers=config.workers,
                                                pin_memory=True)
     """
-    lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
+    #lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
+    lambda1 = lambda epoch: 0.95 ** epoch
+    lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=[lambda1])
 
     best_top1 = 0.
     # training loop
