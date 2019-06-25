@@ -26,8 +26,6 @@ def main():
 
     # set default gpu device id
     torch.cuda.set_device(config.gpus[0])
-    print(config.gpus[0])
-    a=2/0
 
     # set seed
     np.random.seed(config.seed)
