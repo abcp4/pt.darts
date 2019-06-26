@@ -63,7 +63,7 @@ def main():
     best_top1 = 0.
     best_top_overall = -999
     
-    n_train = len(train_data)
+    n_train = len(train_data) // int(config.data_train_proportion)
     n_val = len(val_dat)
     n_test = len(test_dat)
     split = n_train // 2
