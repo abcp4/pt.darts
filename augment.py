@@ -19,7 +19,7 @@ writer.add_text('config', config.as_markdown(), 0)
 
 logger = utils.get_logger(os.path.join(config.path, "{}.log".format(config.name)))
 config.print_params(logger.info)
-
+import pickle
 
 def main():
     logger.info("Logger is set - training start")
@@ -125,6 +125,7 @@ def main():
         if best_top1 < top1:
             best_top1 = top1
             is_best = True
+            pickle.dump([best_top1], open( "/content/best_top1.p", "wb" ) )
         else:
             is_best = False
         #utils.save_checkpoint(model, config.path, is_best)
