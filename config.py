@@ -101,6 +101,7 @@ class AugmentConfig(BaseConfig):
         parser.add_argument('--aux_weight', type=float, default=0.4, help='auxiliary loss weight')
         parser.add_argument('--cutout_length', type=int, default=16, help='cutout length')
         parser.add_argument('--drop_path_prob', type=float, default=0.2, help='drop path prob')
+        parser.add_argument('--data_train_proportion', type=float, default=1.0, help='proportion of dataset')
 
         parser.add_argument('--genotype', required=True, help='Cell genotype')
 
