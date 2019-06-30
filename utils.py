@@ -193,7 +193,7 @@ def load_checkpoint2(model,epoch,optimizer,loss, filename='model.pth.tar'):
         #print(checkpoint)
         epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['model_state_dict'])
-        w_optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         loss = checkpoint['loss']
         print("=> loaded checkpoint '{}' (epoch {})"
                   .format(filename, checkpoint['epoch']))
