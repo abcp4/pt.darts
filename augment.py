@@ -105,7 +105,7 @@ def main():
     """
     #load
     if(config.load):
-        model,config.epochs,optimizer,criterion = utils.load_checkpoint2(model,config.epochs,optimizer,criterion,config.path)
+        model,config.epochs,optimizer,criterion = utils.load_checkpoint2(model,config.epochs,optimizer,criterion,'/content/pt.darts/checkpoint.pth.tar')
 
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
     #lambda1 = lambda epoch: 0.95 ** epoch
@@ -133,7 +133,7 @@ def main():
         else:
             is_best = False
         #utils.save_checkpoint(model, config.path, is_best)
-        utils.save_checkpoint2(model,epoch,optimizer,criterion, config.path, is_best)
+        utils.save_checkpoint2(model,epoch,optimizer,criterion, '/content/pt.darts/', is_best)
         print("")
 
     logger.info("Final best Prec@1 = {:.4%}".format(best_top1))
