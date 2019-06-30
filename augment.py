@@ -103,6 +103,10 @@ def main():
                                                num_workers=config.workers,
                                                pin_memory=True)
     """
+    #load
+    if(config.load):
+        model,config.epochs,optimizer,criterion = utils.load_checkpoint2(model,config.epochs,optimizer,criterion,config.path)
+
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
     #lambda1 = lambda epoch: 0.95 ** epoch
     #lr_scheduler = torch.optim.lr_scheduler.RLambdaLR(optimizer, lr_lambda=[lambda1])
