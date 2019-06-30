@@ -82,7 +82,9 @@ class AugmentConfig(BaseConfig):
     def build_parser(self):
         parser = get_parser("Augment config")
         parser.add_argument('--name', required=True)
+        parser.add_argument('--save', type=bool, default=False)
         parser.add_argument('--load', type=bool, default=False)
+        parser.add_argument('--check_path', type=str, default='/content/pt.darts/')
         parser.add_argument('--dataset', required=True, help='CIFAR10 / MNIST / FashionMNIST')
         parser.add_argument('--data_path', type=str, default='./data/')
         parser.add_argument('--batch_size', type=int, default=96, help='batch size')
