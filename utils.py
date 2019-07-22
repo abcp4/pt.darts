@@ -29,6 +29,7 @@ def get_data(dataset, data_path, cutout_length, validation,validation2 = False):
 
     trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length)
     if dataset == 'custom':
+        print("DATA PATH:", data_path)
         trn_data = dset_cls(root=data_path, transform=trn_transform)
         #dataset_loader = torch.utils.data.DataLoader(trn_data,
         #                                     batch_size=16, shuffle=True,
