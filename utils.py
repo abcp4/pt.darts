@@ -8,7 +8,7 @@ import numpy as np
 import preproc
 
 
-def get_data(dataset, data_path, cutout_length, validation,validation2 = False):
+def get_data(dataset, data_path,val1_data_path,val2_data_path, cutout_length, validation,validation2 = False):
     """ Get torchvision dataset """
     dataset = dataset.lower()
 
