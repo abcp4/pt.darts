@@ -129,7 +129,7 @@ def main():
         if best_top1 < top1:
             best_top1 = top1
             is_best = True
-            pickle.dump([best_top1], open( "/content/best_top1.p", "wb" ) )
+            pickle.dump([best_top1], open( "best_top1.p", "wb" ) )
         else:
             is_best = False
         #utils.save_checkpoint(model, config.path, is_best)
