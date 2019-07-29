@@ -53,13 +53,13 @@ def get_data(dataset, data_path, cutout_length, validation,validation2 = False):
         
     if validation: # append validation data
         if dataset == 'custom':
-            dset_cls = dset.ImageFolder('/content/data/test',transform=val_transform)
+            dset_cls = dset.ImageFolder(val1_data_path,transform=val_transform)
             ret.append(dset_cls)
         else:
             ret.append(dset_cls(root=data_path, train=False, download=True, transform=val_transform))
     if validation2:
         if dataset == 'custom':
-            dset_cls = dset.ImageFolder('/content/data/valid',transform=trn_transform)
+            dset_cls = dset.ImageFolder(val2_data_path,transform=trn_transform)
             ret.append(dset_cls)
     return ret
 
