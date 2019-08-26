@@ -181,10 +181,10 @@ def save_checkpoint2(model,epoch,optimizer,loss, ckpt_dir, is_best=False):
             'loss': loss
                 }, filename)
     if is_best:
-        best_filename = os.path.join(ckpt_dir, 'model.pth.tar')
+        best_filename = os.path.join(ckpt_dir, 'best_model.pth.tar')
         shutil.copyfile(filename, best_filename)
         
-def load_checkpoint2(model,epoch,optimizer,loss, filename='model.pth.tar'):
+def load_checkpoint2(model,epoch,optimizer,loss, filename='best_model.pth.tar'):
     filename=filename+'checkpoint.pth.tar'
     # Note: Input model & optimizer should be pre-defined.  This routine only updates their states.
     start_epoch = 0
