@@ -124,6 +124,8 @@ def main():
         # validation
         cur_step = (epoch+1) * len(train_loader)
         top1 = validate(valid_loader, model, criterion, epoch, cur_step)
+        
+        top1 = testing(test_loader, model, criterion, epoch, cur_step)
 
         # save
         if best_top1 < top1:
@@ -328,8 +330,9 @@ def testing(valid_loader, model, criterion,epoch, cur_step,overall = False):
                         epoch+1, config.epochs, step, len(valid_loader)-1, losses=losses,
                         top1=top1, top5=top5))
             
-    print(preds.shape)
-    print(targets.shape)
+    print(preds)
+    print(targets)
+    print(names)
     print('np.unique(targets):',np.unique(targets))
     print('np.unique(preds): ',np.unique(preds))
     from sklearn.metrics import classification_report
