@@ -7,6 +7,20 @@ import torchvision.datasets as dset
 import numpy as np
 import preproc
 
+class ImageFolderWithPaths(dset.ImageFolder):
+    """Custom dataset that includes image file paths. Extends
+    torchvision.datasets.ImageFolder
+    """
+
+    # override the __getitem__ method. this is the method that dataloader calls
+    def __getitem__(self, index):
+        # this is what ImageFolder normally returns 
+        original_tuple = super(ImageFolderWithPaths, self).__getitem__(index)
+        # the image file path
+        path = self.imgs[index][0]
+        # make a new tuple that includes original and the path
+        tuple_with_path = (original_tuple + (path,))
+        return tuple_with_path
 
 def get_data(dataset, data_path,val1_data_path,val2_data_path, cutout_length, validation,validation2 = False,img_size = 64):
     """ Get torchvision dataset """
@@ -59,7 +73,7 @@ def get_data(dataset, data_path,val1_data_path,val2_data_path, cutout_length, va
             ret.append(dset_cls(root=data_path, train=False, download=True, transform=val_transform))
     if validation2:
         if dataset == 'custom':
-            dset_cls = dset.ImageFolder(val2_data_path,transform=trn_transform)
+            dset_cls =ImageFolderWithPaths(val2_data_path,transform=trn_transform)
             ret.append(dset_cls)
     return ret
 
