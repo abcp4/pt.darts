@@ -8,7 +8,7 @@ import numpy as np
 import preproc
 
 
-def get_data(dataset, data_path,val1_data_path,val2_data_path, cutout_length, validation,validation2 = False):
+def get_data(dataset, data_path,val1_data_path,val2_data_path, cutout_length, validation,validation2 = False,img_size = 64):
     """ Get torchvision dataset """
     dataset = dataset.lower()
 
@@ -27,7 +27,7 @@ def get_data(dataset, data_path,val1_data_path,val2_data_path, cutout_length, va
     else:
         raise ValueError(dataset)
 
-    trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length)
+    trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length,img_size)
     if dataset == 'custom':
         print("DATA PATH:", data_path)
         trn_data = dset_cls(root=data_path, transform=trn_transform)
@@ -40,7 +40,7 @@ def get_data(dataset, data_path,val1_data_path,val2_data_path, cutout_length, va
 
     # assuming shape is NHW or NHWC
     if dataset == 'custom':
-        shape = [1, 64, 64,3]
+        shape = [1, img_size, img_size,3]
     else:
         shape = trn_data.train_data.shape
     print(shape)
