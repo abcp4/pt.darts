@@ -280,7 +280,7 @@ def testing(valid_loader, model, criterion,epoch, cur_step,overall = False):
     import numpy as np
     preds = np.asarray([])
     targets = np.asarray([])
-    names = np.asarray([])
+    names = []
     with torch.no_grad():
         for step, (X, y,z) in enumerate(valid_loader):
             X, y = X.to(device, non_blocking=True), y.to(device, non_blocking=True)
@@ -299,7 +299,7 @@ def testing(valid_loader, model, criterion,epoch, cur_step,overall = False):
             #minha alteracao
             preds = np.concatenate((preds,predicted.cpu().numpy().ravel()))
             targets = np.concatenate((targets,target.cpu().numpy().ravel()))
-            names = np.concatenate(names,z)
+            names.append(z)
             
             ###TOP 5 NAO EXISTE NAS MAAMAS OU NO GEO. TEM QUE TRATAR
             maxk = 3 # Ignorando completamente o top5
