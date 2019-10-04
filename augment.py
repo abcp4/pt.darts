@@ -301,7 +301,7 @@ def testing(valid_loader, model, criterion,epoch, cur_step,overall = False):
             #minha alteracao
             preds = np.concatenate((preds,predicted.cpu().numpy().ravel()))
             targets = np.concatenate((targets,target.cpu().numpy().ravel()))
-            log_preds = np.concatenate((output.data,output.data.cpu().numpy().ravel()))
+            log_preds = np.concatenate((log_preds,output.data.cpu().numpy().ravel()))
             
             names.append(z)
             
